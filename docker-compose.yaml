@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  trades:
+    build: .
+    image: trades
+    depends_on:
+      - migrations
+    environment:
+      DATABASE_URL: sqlite:///./trades.db
+    ports:
+      - 8000:8000
+    volumes:
+      - ./trades.db:/code/trades.db
+
+  migrations:
+    image: trades
+    environment:
+      DATABASE_URL: sqlite:///./trades.db
+    entrypoint: sh -c "alembic upgrade head"
+    volumes:
+      - ./trades.db:/code/trades.db
