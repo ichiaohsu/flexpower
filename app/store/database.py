@@ -14,16 +14,15 @@ engine = create_engine(
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-def get_trades(db: Session, trader_id: str, delivery_date: date | None = None):
+def get_trades(db: Session, trader_id: str, delivery_day: date | None = None):
     res = db.query(schemas.Trade)
     
     if trader_id is not None:
         print("trader_id {}".format(trader_id))
         res = res.filter(schemas.Trade.trader_id == trader_id)
     
-    if delivery_date is not None:
-        res = res.filter(schemas.Trade.delivery_day == delivery_date)
-    
+    if delivery_day is not None:
+        res = res.filter(schemas.Trade.delivery_day == delivery_day)
     return res.all()
 
 def create_trade(db: Session, trade: Trade):

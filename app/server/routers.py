@@ -25,13 +25,12 @@ async def list_trades(
         description="Unique id of a trader (bot or team member)",
         example="MirkoT"
     )] = None,
-    delivery_date: Annotated[date | None, Query(
+    delivery_day: Annotated[date | None, Query(
         description="Day on which the energy has to be delivered in local time."
     )] = None,
     db: Session = Depends(get_db)
 ) -> List[trade.Trade]: 
-        
-    trades = database.get_trades(db, trader_id=trader_id, delivery_date = delivery_date)
+    trades = database.get_trades(db, trader_id=trader_id, delivery_day = delivery_day)
     return trades
 
 @router.post("/trades",
