@@ -5,9 +5,9 @@ from sqlalchemy.orm import Session
 from typing import Annotated, List
 from datetime import date
 
-from app.server import trade, error
-from app.store import database
-from app.server.db import get_db
+from apis.server import trade, error
+from apis.store import database
+from apis.server.db import get_db
 
 router = APIRouter()
 

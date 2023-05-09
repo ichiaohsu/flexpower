@@ -3,8 +3,8 @@ from sqlalchemy.orm import sessionmaker, Session
 
 from datetime import date
 
-from app.store import schemas
-from app.server.trade import Trade
+from apis.store import schemas
+from apis.server.trade import Trade
 import os
 
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
@@ -18,7 +18,6 @@ def get_trades(db: Session, trader_id: str, delivery_day: date | None = None):
     res = db.query(schemas.Trade)
     
     if trader_id is not None:
-        print("trader_id {}".format(trader_id))
         res = res.filter(schemas.Trade.trader_id == trader_id)
     
     if delivery_day is not None:

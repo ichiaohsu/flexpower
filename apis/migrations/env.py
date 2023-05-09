@@ -31,7 +31,7 @@ config.set_main_option("sqlalchemy.url", os.environ["DATABASE_URL"])
 # ... etc.
  
 # import Base
-from app.store.schemas import Base
+from apis.store.schemas import Base
 
 target_metadata = Base.metadata
 

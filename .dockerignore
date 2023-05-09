@@ -4,3 +4,4 @@ venv
 .git
 .vscode
 README.md
+node_modules

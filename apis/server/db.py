@@ -1,4 +1,4 @@
-from app.store import database
+from apis.store import database
 
 # db instance
 def get_db():

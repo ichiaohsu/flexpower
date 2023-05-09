@@ -3,12 +3,13 @@ from fastapi import FastAPI, status, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
-from app.server import routers, trade
+from apis.server import routers, error
 
-from app.store.schemas import Base
+from apis.store.schemas import Base
 
-from app.store import database
+from apis.store import database
 
 Base.metadata.create_all(bind=database.engine)
 
@@ -19,11 +20,24 @@ app = FastAPI(
 
 app.include_router(routers.router)
 
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+    
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
-        content=jsonable_encoder(trade.Error(status_code=status.HTTP_400_BAD_REQUEST, message=str(exc.errors())))
+        content=jsonable_encoder(error.Error(status_code=status.HTTP_400_BAD_REQUEST, message=str(exc.errors())))
     )
 
 if __name__ == "__main__":
