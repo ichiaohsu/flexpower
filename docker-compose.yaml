@@ -23,12 +23,14 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./trades.db:/code/trades.db
+      - ./apis/trades.db:/code/trades.db
 
   migrations:
+    build: 
+      context: ./apis
     image: trades
     environment:
       DATABASE_URL: sqlite:///./trades.db
-    entrypoint: sh -c "alembic upgrade head"
+    entrypoint: sh -c "alembic -c apis/alembic.ini upgrade head"
     volumes:
-      - ./trades.db:/code/trades.db
+      - ./apis/trades.db:/code/trades.db
